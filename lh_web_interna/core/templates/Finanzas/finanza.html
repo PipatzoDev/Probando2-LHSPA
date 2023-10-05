@@ -1,0 +1,123 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{%block content %}
+<!--**********************************
+    Content body start
+***********************************-->
+    <div class="page-titles">
+        <ol class="breadcrumb">
+            <li><h5 class="bc-title">Finanzas</h5></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.125 6.375L8.5 1.41667L14.875 6.375V14.1667C14.875 14.5424 14.7257 14.9027 14.4601 15.1684C14.1944 15.4341 13.8341 15.5833 13.4583 15.5833H3.54167C3.16594 15.5833 2.80561 15.4341 2.53993 15.1684C2.27426 14.9027 2.125 14.5424 2.125 14.1667V6.375Z" stroke="#2C2C2C" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6.375 15.5833V8.5H10.625V15.5833" stroke="#2C2C2C" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Portal </a>
+            </li>
+            <li class="breadcrumb-item active"><a href="javascript:void(0)">Finanzas</a></li>
+        </ol>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-xxl-4">
+                <div class="card h-auto">
+                    <div class="card-header">
+                        <h4 class="heading mb-0">Agregar Transacción ( EN PROCESO ) </h4>
+                    </div>
+                    <div class="card-body">
+                        <form class="finance-hr">
+                           
+                            <div class="form-group mb-3">
+                                <label> Monto<span class="text-danger">*</span>
+                                </label>
+                                <div class="input-group">
+                                <div class="input-group-text">$</div>
+                                <input type="number" class="form-control" placeholder="5000">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="text-secondary"> tipo_transaccion<span class="text-danger">*</span>
+                                </label>
+                                <input type="number" class="form-control"  placeholder="123456">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="text-secondary">Codigo<span class="text-danger">*</span>
+                                </label>
+                                <input type="number" class="form-control"  placeholder="#321456">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="text-secondary">descripcion<span class="text-.0 0 0">*</span>
+                                </label>
+                                <input type="text" class="form-control"  placeholder="Industrial and Commercial Bank of China Limited">
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-3">Confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-xxl-8">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive active-projects manage-client">
+                        <div class="tbl-caption">
+                            <h4 class="heading mb-0">Tabla de Finanzas</h4>
+                        </div>
+                            <table id="empoloyees-tbl1" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID TRANSACCIÓN</th>
+                                        <th>TIPO TRANSACCIÓN</th>
+                                        <th>MONTO</th>
+                                        <th>FECHA TRANSACCIÓN</th>
+                                        <th>EMPLEADO</th>
+                                        <th>PROVEEDOR</th>
+                                        <th>DESCRIPCIÓN TRANSACCIÓN</th>
+                                        <th>OTROS DATOS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for x in trans%}
+                                    <tr>
+                                        <td>
+                                            {{x.id_transaccion}}
+                                        </td>
+                                        <td>
+                                            {{x.tipo_transaccion}}
+                                        </td>
+                                        <td>
+                                            {{x.monto}}
+                                        </td>
+                                        <td>
+                                            {{x.fecha_transaccion}}
+                                        </td>
+                                        <td>
+                                            {{x.empleado_relacionado}}
+                                        </td>
+                                        <td>
+                                            {{x.proveedor_relacionado}}
+                                        </td>
+                                        <td>
+                                            {{x.descripcion}}
+                                        </td>
+                                        <td>
+                                            {{x.otros_datos_financieros}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--**********************************
+    Content body end
+***********************************-->
+{% endblock %}

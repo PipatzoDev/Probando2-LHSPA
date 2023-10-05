@@ -1,0 +1,369 @@
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{%block content %}
+<!--**********************************
+	Content body Start
+***********************************-->
+
+<!-- row -->	
+<div class="page-titles">
+	<ol class="breadcrumb">
+		<li><h5 class="bc-title">Inicio</h5></li>
+		<li class="breadcrumb-item"><a href="javascript:void(0)">
+			<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M2.125 6.375L8.5 1.41667L14.875 6.375V14.1667C14.875 14.5424 14.7257 14.9027 14.4601 15.1684C14.1944 15.4341 13.8341 15.5833 13.4583 15.5833H3.54167C3.16594 15.5833 2.80561 15.4341 2.53993 15.1684C2.27426 14.9027 2.125 14.5424 2.125 14.1667V6.375Z" stroke="#2C2C2C" stroke-linecap="round" stroke-linejoin="round"/>
+				<path d="M6.375 15.5833V8.5H10.625V15.5833" stroke="#2C2C2C" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+			Portal </a>
+		</li>
+		<li class="breadcrumb-item active"><a href="javascript:void(0)">Inicio</a></li>
+	</ol>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xl-9 col-xxl-8">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="card">
+						<div class="card-body p-0">
+							<div class="  table-responsive active-projects style-1">
+								<div class="tbl-caption" style=" position: absolute;left:10px">
+									<h4 class="heading mb-0">Empleados</h4>
+								</div>
+								<div style=" position: absolute;right: 10px;top:15px">
+									<a style= type="button" class=" btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+										+ Agregar Empleado
+									</a>
+									<!-- 
+										<a href="javascript:void(0)" class="btn btn-primary btn-sm"data-bs-toggle="modal" data-bs-target="#offcanvasExample">+ Add Employee</a>-->
+										<!-- Button trigger modal -->	
+								</div>
+								<br><br><br>
+								<table id="empoloyees-tbl" class="table">
+									<thead>
+										<tr>
+											<th>Rut</th>
+											<th>Empleado Nombre</th>
+											<th>Genero</th>
+											<th>Cargo</th>
+											<th>Departamento</th>
+											<th>Correo</th>
+											<th>Teléfono</th>
+											<th>Dirección</th>
+											<th>Fecha de Nacimiento</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for empleado in empleado %}
+										<tr>
+											<td><span>{{empleado.rut}}</span></td>
+											<td>
+												<div class="products">
+													{% if empleado.imageEmp.url is not None %}
+													<img src="{{ empleado.imageEmp.url }}" class="avatar avatar-md" alt="">
+													{% else %}
+													<img src="{% static 'images/contacts/pic2.jpg'%}" class="avatar avatar-md" alt="">
+													{% endif %}
+													<div>
+														<a href="{{ empleado.get_absolute_url }}">
+														<h6>{{empleado.nombre}}</h6>
+														</a>
+														
+														<span>{{empleado.apellido}}</span>	
+													</div>	
+												</div>
+											</td>
+											<td>
+												<span>{{empleado.genero}}</span>
+											</td>
+											<td>
+												<span>{{empleado.cargo}}</span>
+											</td>	
+											<td><span>{{empleado.departamento}}</span></td>
+											<td><span class="text-primary">{{empleado.correo_electronico}}</span></td>
+											<td>
+												<span>{{empleado.telefono}}</span>
+											</td>
+											<td>
+												<span>{{empleado.direccion}}</span>
+											</td>
+											<td>
+												<span>{{empleado.fecha_nacimiento}}</span>
+											</td>
+											<td>
+												<a href="{% url 'empleado-update' empleado.rut %}">
+													<span class="badge bg-primary light border-0">
+													<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M13.7476 20.4429H21.0002" stroke="#FDFEFE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													<path fill-rule="evenodd" clip-rule="evenodd" d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z" stroke="#FDFEFE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													<path d="M11.021 6.00092L16.4732 10.188" stroke="#FDFEFE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg></span>
+												</a>
+												
+												<a href="{% url 'empleado-delete' empleado.rut %}">
+													<span class="badge bg-primary light border-0">
+													<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M19.3248 9.4682C19.3248 9.4682 18.7818 16.2032 18.4668 19.0402C18.3168 20.3952 17.4798 21.1892 16.1088 21.2142C13.4998 21.2612 10.8878 21.2642 8.27979 21.2092C6.96079 21.1822 6.13779 20.3782 5.99079 19.0472C5.67379 16.1852 5.13379 9.4682 5.13379 9.4682" stroke="#FDFEFE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													<path d="M20.708 6.23969H3.75" stroke="#FDFEFE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													<path d="M17.4406 6.23967C16.6556 6.23967 15.9796 5.68467 15.8256 4.91567L15.5826 3.69967C15.4326 3.13867 14.9246 2.75067 14.3456 2.75067H10.1126C9.53358 2.75067 9.02558 3.13867 8.87558 3.69967L8.63258 4.91567C8.47858 5.68467 7.80258 6.23967 7.01758 6.23967" stroke="#FDFEFE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg></span>
+												</a>
+											</td>
+											{% endfor %}
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				</ul>
+				
+		
+				<div class="col-xl-12">
+					<div class="card">
+						<div class="card-body p-0">
+							<div class="table-responsive active-projects style-1 attendance-tbl">
+								
+								
+							<div class="tbl-caption" style=" position: absolute;left:10px">
+								<h4 class="heading mb-0">Asistencia ( EN aaa PROCESO )</h4>
+							</div>
+							<div style=" position: absolute;right:10px;top:15px">
+								<a  type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								+ Registrar Asistencia
+								</a> 
+							</div>
+							<br><br><br>
+							<table id="">
+								<thead>
+									<tr>
+										<th>
+											Rut
+										</th>
+										<th>
+											Nombre
+										</th>
+										
+										<th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th><th>31</th>
+										<th>Total</th>
+										
+									</tr>
+								</thead>
+								<tbody >
+								
+								{% for y in empleado %}
+								
+								<tr>
+								<td>
+									<span>{{y.rut}}</span>
+								</td>
+								<td>
+									<div class="products">
+										{% if y.imageEmp.url is not None %}
+												<img src="{{ y.imageEmp.url }}" class="avatar avatar-md" alt="">
+												{% else %}
+												<img src="{% static 'images/contacts/pic2.jpg' %}" class="avatar avatar-md" alt="">
+												{% endif %}
+												<div>
+													<a href="{{ y.get_absolute_url }}">
+													<h6>{{y.nombre}}</h6>
+													</a>
+													
+													<span>{{y.apellido}}</span>	
+												</div>	
+									</div>
+									
+								</td>
+		
+								{% for dia in listadias %}
+					
+								{% for x in asistencia %}
+							
+								{% if y.rut == x.empleado.rut %}
+									
+										{% if x.fecha|date:"d" == dia|stringformat:"02d" %}
+										<td>
+											{{dia}}
+											<span class="text-success"><i class="fa-solid fa-check"></i></span>
+										</td>
+									
+										{% endif %}
+										
+						
+								{% endif %}
+								
+								{% endfor %}
+										
+										
+								{% endfor %}
+								</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+										
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-4">
+			<div class="row">
+				<div class="col-xl-12 col-md-6">
+					<div class="card">
+						<div class="card-header border-0">
+							<h4 class="heading mb-0">Calendario</h4>
+						</div>
+						<div class="card-body schedules-cal p-2">
+							<input type="text" class="form-control d-none" id="datetimepicker1">
+							<div class="events">
+								<h6>Eventos Chilenos de este mes</h6>
+								<div class="dz-scroll event-scroll">	
+									{% for event in events %}
+									<div class="event-media">
+										<div class="d-flex align-items-center">
+											<div class="event-box">
+												<h5 class="mb-0">{{event.start|slice:"8:10"}}</h5>
+												<span>{{event.start|slice:"5:7"}}</span>
+											</div>
+											<div class="event-data ms-2">
+												<h5 class="mb-0">{{ event.summary }}</h5>
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-center">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Asistencia</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-xl-12">
+				<form method="post">
+					{% csrf_token %}
+					<label class="mt-3 invite">Empleado<span class="text-danger">*</span></label>
+					{{form2.empleado}}
+					<label class="mt-3 invite">Fecha<span class="text-danger">*</span></label>
+					{{form2.fecha}}
+					<label class="mt-3 invite">Hora Entrada<span class="text-danger">*</span></label>
+					{{form2.hora_entrada}}
+					<label class="mt-3 invite">Hora Salida<span class="text-danger">*</span></label>
+					{{form2.hora_salida}}
+
+			
+					<br><br>
+					
+					
+				
+				
+				</div>
+				
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="Submit" class="btn btn-primary">Guardar Asistencia</button>
+			<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cancelar</button>
+		</div>
+	</form>
+	  </div>
+	</div>
+  </div>
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-center">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h1 class="modal-title fs-5" id="exampleModalLabel1">Agregar Empleado</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			  <div class="row">
+				  <div class="col-xl-12">
+					  <form class="col-md" action=""  method="POST" enctype="multipart/form-data">
+						  {% csrf_token %}
+						  
+						  <label class="from-control">Rut<span class="text-danger">*</span></label>
+						   {{form.rut}}
+
+						   <label class="mt-3 invite">Foto de Perfil: <span class="text-option">opcional</span></label>
+						   {{form.imageEmp}}
+						  <div class="row">
+							  <div class="col-xl-6">
+								  <label class="mt-3 invite">Nombre<span class="text-danger">*</span></label>
+								  <div class="input-group">
+								   {{form.nombre}}
+								  </div>
+							  </div>
+							  <div class="col-xl-6">
+								  <label class="mt-3 invite">Apellido<span class="text-danger">*</span></label>
+								  <div class="input-group">
+								  {{form.apellido}}
+								  </div>
+							  </div>
+						  </div>
+						  <div class="row">
+							  <div class="col-xl-6">
+								  <label class="mt-3 invite">Departamento<span class="text-danger">*</span></label>
+								  {{form.departamento}}
+							  </div>
+							  <div class="col-xl-6">
+								  <label class="mt-3 invite">Telefono<span class="text-danger">*</span></label>
+								  {{form.telefono}}
+							  </div>
+						  </div>
+						  <div class="row">
+							  <div class="col-xl-6">
+								  <label class="mt-3 invite">Cargo<span class="text-danger">*</span></label>
+								  {{form.cargo}}
+							  </div>
+							  <div class="col-xl-6">
+								  <label class="mt-3 invite">Fecha de nacimiento<span class="text-danger">*</span></label>
+								  <input type="date" class="form-control" {{form.fecha_nacimiento}}
+							  </div>
+						  </div>
+						  <div class="mt-3 invite">
+							  <label class="mt-3 invite">Correo<span class="text-danger"> (ejemplo@gmail.com)</span></label>
+							  {{form.correo_electronico}}
+						  </div>
+						  <div class="mt-3 invite">
+							  <label class="mt-3 invite">Direccion<span class="text-danger">*</span></label>
+							  {{form.direccion}}
+						  </div>
+						  <div class="col-xl-6">
+							  <label class="mt-3 invite">Genero<span class="text-danger">*</span></label>
+							  {{form.genero}}
+							  <br>
+						  </div>
+						  
+						</div>
+					
+				  </div>
+			  </div>
+			  <div class="modal-footer">
+				  <button type="Submit" class="btn btn-primary">Guardar Empleado</button>
+				  <button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Cancelar</button>	
+		  </form>
+		</div>
+	  </div>
+	</div>
+
+<!--**********************************
+	Content body end
+***********************************-->
+
+{% endblock %}

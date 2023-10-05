@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="">
+	<meta name="author" content="">
+	<meta name="robots" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="LH Ingenieria Spa. Description">
+	<meta property="og:title" content="LH Ingenieria Spa.Title">
+	<meta property="og:description" content="LH Ingenieria Spa. description og">
+	<meta property="og:image" content="https://w7.pngwing.com/pngs/222/61/png-transparent-house-apartment-real-estate-logo-building-construction-logo-hat-building-apartment.png">
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- PAGE TITLE HERE -->
+	{% block title %}<title>LH Ingenieria Spa.</title>{% endblock %}
+	{% load static %}
+	<!-- FAVICONS ICON -->
+	<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}">
+	<link href="{% static 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/swiper/css/swiper-bundle.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/datatables/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+	<link href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css" rel="stylesheet">
+	<link href="{% static 'vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+	
+	<!-- tagify-css -->
+	<link href="{% static 'vendor/tagify/dist/tagify.css' %}" rel="stylesheet">
+	
+	<!-- Style css -->
+   <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+	<!-- Clockpicker -->
+    <link href="{% static 'vendor/clockpicker/css/bootstrap-clockpicker.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+	
+</head>
+
+<body data-typography="poppins" data-theme-version="light" data-layout="vertical" data-nav-headerbg="black" data-headerbg="color_1">
+
+
+    <!--*******************
+        Preloader start
+    ********************-->
+	<div id="preloader">
+		<div class="lds-ripple">
+			<div></div>
+			<div></div>
+		</div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+			<a href="{% url 'inicio' %}" class="brand-logo">
+			<svg class="logo-abbr" width="39" height="23" viewBox="0 0 39 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M17.9028 8.85114L13.4596 12.4642C12.6201 13.1302 11.4389 13.1302 10.5994 12.4642L6.11865 8.85114" stroke="#FDFEFE " stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+				<path fill-rule="evenodd" clip-rule="evenodd" d="M16.9089 21C19.9502 21.0084 22 18.5095 22 15.4384V8.57001C22 5.49883 19.9502 3 16.9089 3H7.09114C4.04979 3 2 5.49883 2 8.57001V15.4384C2 18.5095 4.04979 21.0084 7.09114 21H16.9089Z" stroke="#FDFEFE " stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+				
+			<svg class="brand-title" width="200" height	="70" xmlns="http://www.w3.org/2000/svg">
+				<text x="10" y="40" font-family="Arial" font-size="15" fill="white">Lh Ingeneria Spa</text>
+			  </svg>
+				
+            </a>
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span>
+					<span class="line"></span>
+					<span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+		
+		
+		<div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+							<form>
+								<div class="input-group search-area">
+									<span class="input-group-text"><button class="bg-transparent border-0">
+										<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<circle cx="8.78605" cy="8.78605" r="8.23951" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+										<path d="M14.5168 14.9447L17.7471 18.1667" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+									</button></span>
+									<input type="text" class="form-control" placeholder="Buscar...">
+								</div>
+							</form>	
+                        </div>
+                        <ul class="navbar-nav header-right">
+							
+							
+							<li class="nav-item ps-3">
+								<div class="dropdown header-profile2">
+									<a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										<div class="header-info2 d-flex align-items-center">
+											<div class="header-media">
+												<img src="{% static 'images/tab/1.jpg'%}" alt="">
+												
+											</div>
+											
+											<div class="header-info">
+											
+												{% if user.is_authenticated %}
+												<h6>Usuario: {{user.username}} </h6>
+												
+												
+												
+												{% endif %}
+											</div>
+											
+										</div>
+									</a>
+									<div class="dropdown-menu dropdown-menu-end" style="">
+										<div class="card border-0 mb-0">
+											<div class="card-header py-2">
+												<div class="products">
+													<img src="{% static 'images/tab/1.jpg'%}" class="avatar avatar-md" alt="">
+													<div>
+														<h6>Usuario: {{user.username}} </h6>
+													</div>	
+												</div>
+											</div>
+											<div class="card-body px-0 py-2">
+										
+												<a href="#" class="dropdown-item ai-icon ">
+													<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+
+													<span class="ms-2">Mis Proyectos</span><span class="badge badge-sm badge-secondary light rounded-circle text-white ms-2">4</span>
+												</a>
+												
+											</div>
+											<div class="card-footer px-0 py-2">
+												
+												<a href="{% url 'logout' %}" class="dropdown-item ai-icon">
+													<svg class="profle-logout" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff7979" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+													<span class="ms-2 text-danger">Salir </span>
+												</a>
+											</div>
+										</div>
+										
+									</div>
+								</div>
+							</li>
+                        </ul>
+                    </div>
+				</nav>
+			</div>
+		</div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+       <!--**********************************
+            Sidebar start
+        ***********************************-->
+		<div class="deznav">
+            <div class="deznav-scroll">
+				<ul class="metismenu" id="menu">
+					<li class="menu-title">Portal Administrativo</li>
+					<li><a href="{% url 'dashboard' %}" class="" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M2.5 7.49999L10 1.66666L17.5 7.49999V16.6667C17.5 17.1087 17.3244 17.5326 17.0118 17.8452C16.6993 18.1577 16.2754 18.3333 15.8333 18.3333H4.16667C3.72464 18.3333 3.30072 18.1577 2.98816 17.8452C2.67559 17.5326 2.5 17.1087 2.5 16.6667V7.49999Z" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+								<path d="M7.5 18.3333V10H12.5V18.3333" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>	
+						<span class="nav-text">Dashboards</span>
+						</a>
+					</li>
+					<li><a class="has-arrow " href="{% url 'inicio' %}" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M15.8381 12.7317C16.4566 12.7317 16.9757 13.2422 16.8811 13.853C16.3263 17.4463 13.2502 20.1143 9.54009 20.1143C5.43536 20.1143 2.10834 16.7873 2.10834 12.6835C2.10834 9.30245 4.67693 6.15297 7.56878 5.44087C8.19018 5.28745 8.82702 5.72455 8.82702 6.36429C8.82702 10.6987 8.97272 11.8199 9.79579 12.4297C10.6189 13.0396 11.5867 12.7317 15.8381 12.7317Z" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M19.8848 9.1223C19.934 6.33756 16.5134 1.84879 12.345 1.92599C12.0208 1.93178 11.7612 2.20195 11.7468 2.5252C11.6416 4.81493 11.7834 7.78204 11.8626 9.12713C11.8867 9.5459 12.2157 9.87493 12.6335 9.89906C14.0162 9.97818 17.0914 10.0862 19.3483 9.74467C19.6552 9.69835 19.88 9.43204 19.8848 9.1223Z" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>	
+						<span class="nav-text">RRHH</span>
+						</a>
+						
+					</li>
+				
+					<li><a href="{% url 'finanza'%}" class="" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M6.64111 13.5497L9.38482 9.9837L12.5145 12.4421L15.1995 8.97684" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+								<ellipse cx="18.3291" cy="3.85021" rx="1.76201" ry="1.76201" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+								<path d="M13.6808 2.86012H7.01867C4.25818 2.86012 2.54651 4.81512 2.54651 7.57561V14.9845C2.54651 17.7449 4.22462 19.6915 7.01867 19.6915H14.9058C17.6663 19.6915 19.3779 17.7449 19.3779 14.9845V8.53213" stroke="#888888" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>	
+							<span class="nav-text">Finanzas</span>
+						</a>
+					</li>
+				
+					<li><a href="{% url 'proveedor'%}" class="" aria-expanded="false">
+						<div class="menu-icon">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M2.75 3.24988L4.83 3.60988L5.793 15.0829C5.87 16.0199 6.653 16.7389 7.593 16.7359H18.502C19.399 16.7379 20.16 16.0779 20.287 15.1899L21.236 8.63188C21.342 7.89888 20.833 7.21888 20.101 7.11288C20.037 7.10388 5.164 7.09888 5.164 7.09888" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+								<path d="M14.125 10.7948H16.898" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M7.15435 20.2025C7.45535 20.2025 7.69835 20.4465 7.69835 20.7465C7.69835 21.0475 7.45535 21.2915 7.15435 21.2915C6.85335 21.2915 6.61035 21.0475 6.61035 20.7465C6.61035 20.4465 6.85335 20.2025 7.15435 20.2025Z" fill="#130F26" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+								<path fill-rule="evenodd" clip-rule="evenodd" d="M18.4346 20.2025C18.7356 20.2025 18.9796 20.4465 18.9796 20.7465C18.9796 21.0475 18.7356 21.2915 18.4346 21.2915C18.1336 21.2915 17.8906 21.0475 17.8906 20.7465C17.8906 20.4465 18.1336 20.2025 18.4346 20.2025Z" fill="#130F26" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+								</svg>
+						</div>
+						<span class="nav-text">Proveedores</span>
+						</a>
+					</li>
+					
+					
+					
+			</div>
+        </div>	
+		
+		
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+		<div class="content-body">
+		<!--**********************************
+            Content body start
+        ***********************************-->
+        {% block content %}
+
+        {% endblock %}
+        <!--**********************************
+            Content body end
+        ***********************************-->
+		</div>
+		
+       <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+               <p>LH Ingenieria Spa. © Derechos Reservados 2023</p>
+            </div>
+        </div>
+
+		
+		
+		
+		
+
+        <!--**********************************
+            Footer end
+        ***********************************-->
+
+		<!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button end
+        ***********************************-->
+			
+
+
+	</div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+	
+    <!--**********************************
+        Scripts
+    ***********************************-->
+	 <!-- Required vendors -->
+	 <script src="{% static 'vendor/global/global.min.js' %}"></script>
+	 <script src="{% static 'vendor/chart.js/Chart.bundle.min.js' %}"></script>
+	 <script src="{% static 'vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+	 <script src="{% static 'vendor/apexchart/apexchart.js' %}"></script>
+     <script src="{% static 'js/custom.js' %}"></script>
+	<script src="{% static 'js/deznav-init.js' %}"></script>
+	<!-- Dashboard 1 -->
+	 
+	<script src="{% static 'js/dashboard/core-hr.js' %}"></script>
+	<script src="{% static 'vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+	<script src="{% static 'vendor/datatables/js/dataTables.buttons.min.js' %}"></script>
+	<script src="{% static 'vendor/datatables/js/buttons.html5.min.js' %}"></script>
+	<script src="{% static 'vendor/datatables/js/jszip.min.js' %}"></script>
+	<script src="{% static 'js/plugins-init/datatables.init.js' %}"></script>
+	<script src="{% static 'vendor/dropzone/dist/dropzone.js' %}"></script>
+   <!-- Apex Chart -->
+
+
+   <script src="{% static 'vendor/bootstrap-datetimepicker/js/moment.js' %}"></script>
+   <script src="{% static 'vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+   
+	<!-- tagify -->
+	<script src="{% static 'vendor/tagify/dist/tagify.js' %}"></script>
+
+	<!-- clockpicker -->
+   <script src="{% static 'vendor/clockpicker/js/bootstrap-clockpicker.min.js' %}"></script>
+   
+	<!-- Clockpicker init -->
+   <script src="{% static 'js/plugins-init/clock-picker-init.js' %}"></script>
+
+   <script src="{% static 'js/styleSwitcher.js' %}"></script>
+	<script>
+		jQuery(document).ready(function(){
+			setTimeout(function(){
+				dzSettingsOptions.version = 'dark';
+				new dzSettings(dzSettingsOptions);
+			},0)
+		});	
+	</script>
+   
+</body>
+
+	
+</html>
