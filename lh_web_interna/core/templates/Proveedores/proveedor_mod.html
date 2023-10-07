@@ -1,5 +1,24 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Enssssviar</button>
-</form>
+{% extends "base_generic.html" %}
+
+{% load static %}
+
+{%block content %}
+<div class="container-fluid">
+    <div class="col-xl-9 col-xxl-8">
+    <div class="card">
+        <div class="card-body p-5">
+            <form method="post">
+                {% csrf_token %}
+            <h2>Modificando Informacion del Proveedor</h2>
+            <span><h5>Nombre Empresa: {{form.nombre_empresa}} </h5></span>
+            <span><h5>Correo Electronico: {{form.correo_electronico}} </h5></span>
+            <span><h5>Telefono: {{form.telefono}} </h5></span>
+            <span><h5>Dirección: {{form.direccion}} </h5></span>
+            <button type="submit" class="btn btn-primary m-2">Modificar Proveedor</button>
+            <a type="button" class="btn btn-danger" href="{% url 'proveedor' %}">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

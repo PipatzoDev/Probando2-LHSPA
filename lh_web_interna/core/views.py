@@ -141,6 +141,7 @@ class ProveedorUpdate(UpdateView):
     model = Proveedor
     template_name = 'proveedores/proveedor_mod.html'
     context_object_name = 'proveedor'
+    form_class = ProveedorForms
     success_url = reverse_lazy('proveedor')
     
 class ProveedorDelete(DeleteView):

@@ -37,7 +37,11 @@ class AsistenciaForms(forms.ModelForm):
         fields = "__all__"
         
 class ProveedorForms(forms.ModelForm):
-    nombre_empresa = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese Rut del Empleado'}))
+  
+    nombre_empresa = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Nombre Empresa'}))
+    correo_electronico = forms.EmailField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Correo Empresa'}))
+    telefono = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese Telefono'}))
+    direccion = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese Dirección del Empleado'}))
     
     class Meta:
         model = Proveedor
