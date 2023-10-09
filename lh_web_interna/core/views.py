@@ -24,13 +24,21 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 from django.http import JsonResponse
+import os
 
 
+# Obtén el directorio base de tu proyecto Django
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Construye la ruta al archivo client_scret.json usando BASE_DIR
+json_file_path = os.path.join(BASE_DIR, 'core/static/client_scret.json')
+
+# Ahora, puedes usar json_file_path en lugar de 'core/static/client_scret.json' en tu código
 
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 credentials = service_account.Credentials.from_service_account_file(
-    'core/static/client_scret.json', scopes=SCOPES)
+    json_file_path, scopes=SCOPES)
 
 service = build('calendar', 'v3', credentials=credentials)
 
@@ -87,8 +95,18 @@ def dashboard(request):
     return render(request,'dashboards/dashboard.html')
 @login_required
 def proveedor(request):
+    if request.method == "POST":
+        form = ProveedorForms(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('proveedor')
+    else:
+        form = ProveedorForms()
     proveedores = Proveedor.objects.all()
-    return render(request,'proveedores/proveedor.html',{'proveedores':proveedores})
+    return render(request,'proveedores/proveedor.html',{'proveedores':proveedores,'form':form})
 @login_required
 def finanza(request):
     trans = Transaccion.objects.all()
@@ -99,6 +117,8 @@ def finanza(request):
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
+
+#Empleado
 class EmpleadoDetailView(generic.DetailView):
     model = Empleado
     template_name = 'empleados/empleado_detail.html'
@@ -128,7 +148,7 @@ class EmpleadoDelete(DeleteView):
     success_url = reverse_lazy('inicio')
     context_object_name = 'empleado'
 
-
+#Login
 class CustomLoginView(LoginView):
     def form_invalid(self, form):
         messages.error(self.request, 'Nombre de usuario o contraseña incorrectos.')
@@ -137,6 +157,12 @@ class CustomLoginView(LoginView):
 
 
 #Proveedor
+class ProveedorDetailView(generic.DetailView):
+    model = Proveedor
+    template_name = 'proveedores/proveedor_detail.html'
+    context_object_name = 'proveedor'
+
+    
 class ProveedorUpdate(UpdateView):
     model = Proveedor
     template_name = 'proveedores/proveedor_mod.html'

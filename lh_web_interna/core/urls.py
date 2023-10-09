@@ -13,6 +13,7 @@ urlpatterns = [
     path('dashboards', views.dashboard, name='dashboard'),
     path('finanzas', views.finanza, name='finanza'),
     path('proveedores', views.proveedor, name='proveedor'),
+    path('proveedores/<pk>/', ProveedorDetailView.as_view(), name='proveedor-detail'),
     path('modificarProveedor/<pk>/', views.ProveedorUpdate.as_view() , name='proveedor-update'),
     path('proveedores/<pk>/eliminar/', ProveedorDelete.as_view(), name='proveedor-delete'),
     path('accounts/password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html',email_template_name='registration/password_reset_email.html'), name='password_reset'),
