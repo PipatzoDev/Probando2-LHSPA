@@ -144,6 +144,7 @@ def employe_list(request):
 
     return render(request,'index.html',{'empleado':empleado,'form':form,'asistencia':asistencia,'listadias':listadias,'cant_regis':cant_regis,'array_asistencia':array_asistencia,'events': event_list,'form2':form2,'table_data':table_data,'tabla_asistencia':tabla_asistencia})
 
+
 def generar_tabla_asistencia_mes_actual():
     mes_actual = datetime.now().month
     anio_actual = datetime.now().year
@@ -180,28 +181,8 @@ def generar_tabla_asistencia_mes_actual():
 
 @login_required
 def dashboard(request):
-    mes_actual = datetime.now().month
-    anio_actual = datetime.now().year
-    dias_en_mes = monthrange(anio_actual, mes_actual)[1]
-
-    empleados = Empleado.objects.all()
-
-    tabla_asistencia = []
-
-    for empleado in empleados:
-        fila_asistencia = {'empleado': empleado.nombre, 'asistencias': []}
-
-        for dia in range(1, dias_en_mes + 1):
-            fecha = datetime(anio_actual, mes_actual, dia)
-            asistencia = RegistroAsistencia.objects.filter(empleado=empleado, fecha=fecha).exists()
-
-            if asistencia:
-                fila_asistencia['asistencias'].append('✔')  # '✔' para asistencia
-            else:
-                fila_asistencia['asistencias'].append('✘')  # '✘' para ausencia
-
-        tabla_asistencia.append(fila_asistencia)
-    return render(request,'dashboards/dashboard.html',{'tabla_asistencia':tabla_asistencia})
+    
+    return render(request,'dashboards/dashboard.html',{})
 @login_required
 def proveedor(request):
     if request.method == "POST":
@@ -219,7 +200,17 @@ def proveedor(request):
 @login_required
 def finanza(request):
     trans = Transaccion.objects.all()
-    return render(request,'finanzas/finanza.html',{'trans':trans})
+    if request.method == "POST":
+        form = TransaccionForms(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('finanza')
+    else:
+        form = TransaccionForms()
+    return render(request,'finanzas/finanza.html',{'trans':trans,'form':form})
 
 
 

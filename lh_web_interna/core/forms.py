@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Empleado,RegistroAsistencia,Proveedor
+from .models import Empleado,RegistroAsistencia,Proveedor,Transaccion
 
 class EmpleadoForms(forms.ModelForm):
     rut = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese Rut del Empleado'}))
@@ -45,4 +45,30 @@ class ProveedorForms(forms.ModelForm):
     
     class Meta:
         model = Proveedor
+        fields = "__all__"
+        
+class TransaccionForms(forms.ModelForm):
+    select_gender = (('(-) Retiro (-)', '(-) Retiro (-)'),('(+) Cargo (+)', '(+) Cargo (+)'))
+    tipo_transaccion = forms.ChoiceField(choices=select_gender,widget=forms.Select(attrs={'class':'form-control'}))
+    fecha_transaccion = forms.DateField(widget=forms.DateInput(attrs={'class':'form-control','type':'Date'}))  
+    monto = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','type':'number'}))
+    descripcion = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese una Descripción'}))
+    queryset = Empleado.objects.all()
+    queryset2 = Proveedor.objects.all()
+    empleado_relacionado = forms.ModelChoiceField(queryset=queryset,empty_label="Seleccione un Empleado",widget=forms.Select(attrs={'class':'form-control'}),required=False)
+    proveedor_relacionado = forms.ModelChoiceField(queryset=queryset2,empty_label="Seleccione un Proveedor",widget=forms.Select(attrs={'class':'form-control'}),required=False)
+    otros_datos_financieros = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Datos financieros...'}))
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        campo_obligatorio = cleaned_data.get('empleado_relacionado')
+        campo_opcional = cleaned_data.get('proveedor_relacionado')
+
+        if not campo_obligatorio and not campo_opcional:
+            raise forms.ValidationError("Al menos uno de los campos debe ser llenado.")
+
+        return cleaned_data
+    
+    class Meta:
+        model = Transaccion
         fields = "__all__"
