@@ -1,6 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% load static %}
+{% load i18n %}
 
 {%block content %}
 <!--**********************************
@@ -127,10 +128,8 @@
 					<div class="card">
 						<div class="card-body p-0">
 							<div class="table-responsive active-projects style-1 attendance-tbl">
-								
-								
 							<div class="tbl-caption" style=" position: absolute;left:10px">
-								<h4 class="heading mb-0">Asistencia ( EN aaa PROCESO )</h4>
+								<h4 class="heading mb-0">Asistencia</h4>
 							</div>
 							<div style=" position: absolute;right:10px;top:15px">
 								<a  type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -138,7 +137,7 @@
 								</a> 
 							</div>
 							<br><br><br>
-							<table id="">
+							<table id="attendance-tbl" class="table">
 								<thead>
 									<tr>
 										<th>
@@ -147,61 +146,71 @@
 										<th>
 											Nombre
 										</th>
+											{% for day in table_data.0 %}
+											{% if day.1 %}
+												<th><span>{{ day.1 }}</span>
+													<p>{{ day.0|slice:":2"  }}</p></th>
+											{% endif%}
+											{% endfor %}
+											{% for day in table_data.1 %}
+												<th><span>{{ day.1 }}</span>
+													<p>{{ day.0|slice:":2"  }}</p></th>
+											{% endfor %}
+											{% for day in table_data.2 %}
+												<th><span>{{ day.1 }}</span>
+													<p>{{ day.0|slice:":2"  }}</p></th>
+											{% endfor %}
+											{% for day in table_data.3 %}
+												<th><span>{{ day.1 }}</span>
+													<p>{{ day.0|slice:":2"  }}</p></th>
+											{% endfor %}
+											{% for day in table_data.4 %}
+												<th><span>{{ day.1 }}</span>
+													<p>{{ day.0|slice:":2"  }}</p></th>
+											{% endfor %}
+											{% for day in table_data.5 %}
+											{% if day.1 %}
+												<th><span>{{ day.1 }}</span>
+													<p>{{ day.0|slice:":2"  }}</p></th>
+											{% endif%}
+											{% endfor %}
 										
-										<th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th><th>31</th>
 										<th>Total</th>
-										
 									</tr>
 								</thead>
 								<tbody >
 								
-								{% for y in empleado %}
-								
-								<tr>
-								<td>
-									<span>{{y.rut}}</span>
-								</td>
-								<td>
-									<div class="products">
-										{% if y.imageEmp.url is not None %}
-												<img src="{{ y.imageEmp.url }}" class="avatar avatar-md" alt="">
+									{% for fila in tabla_asistencia %}
+									<tr>
+										 <td>{{fila.rut}}</td>
+										<td>
+											<div class="products">
+												{% if fila.imagen is not None %}
+												<img src="{{ fila.imagen }}" class="avatar avatar-md" alt="">
 												{% else %}
-												<img src="{% static 'images/contacts/pic2.jpg' %}" class="avatar avatar-md" alt="">
+												<img src="{% static 'images/contacts/pic2.jpg'%}" class="avatar avatar-md" alt="">
 												{% endif %}
 												<div>
-													<a href="{{ y.get_absolute_url }}">
-													<h6>{{y.nombre}}</h6>
-													</a>
+												
+													<h6>{{ fila.nombre }}</h6>
 													
-													<span>{{y.apellido}}</span>	
+													
+													<span>{{fila.apellido}}</span>	
 												</div>	
-									</div>
-									
-								</td>
-		
-								{% for dia in listadias %}
-					
-								{% for x in asistencia %}
-							
-								{% if y.rut == x.empleado.rut %}
-									
-										{% if x.fecha|date:"d" == dia|stringformat:"02d" %}
-										<td>
-											{{dia}}
-											<span class="text-success"><i class="fa-solid fa-check"></i></span>
+											</div>
 										</td>
-									
-										{% endif %}
-										
-						
-								{% endif %}
-								
-								{% endfor %}
-										
-										
-								{% endfor %}
-								</tr>
-								{% endfor %}
+										{% for asistencia in fila.asistencias %}
+										<td>{% if asistencia == '✔' %}
+											<span class="text-success"><i class="fa-solid fa-check"></i></span>
+											{% else %}
+											<span class="text-danger"><i class="fa-regular fa-xmark"></i></span>
+											{% endif %}
+										</td>
+										{% endfor %}
+										<td>{{ fila.dias_asistidos }}</td>
+									</tr>
+									{% endfor %}
+							
 								</tbody>
 							</table>
 										

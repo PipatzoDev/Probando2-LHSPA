@@ -4,7 +4,26 @@
 {%block content %}
 
 <h1>Dashboard</h1>
-
-
+<h1>Tabla de Asistencia del Mes Actual</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                {% for dia in dias_del_mes %}
+                <th>{{ dia }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in tabla_asistencia %}
+            <tr>
+                <td>{{ fila.empleado }}</td>
+                {% for asistencia in fila.asistencias %}
+                <td>{{ asistencia }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

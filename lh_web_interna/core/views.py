@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.shortcuts import render,redirect
 from .forms import *
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from datetime import datetime,timedelta
 from django.db.models import Count,F,Sum
 from django.db.models import F, ExpressionWrapper, CharField
 from django.contrib import messages
@@ -24,8 +24,8 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 from django.http import JsonResponse
-import os
-
+import os,calendar 
+from calendar import monthrange
 
 # Obtén el directorio base de tu proyecto Django
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -56,8 +56,60 @@ def employe_list(request):
     array_asistencia = []
     
     
+
+     # Obtener el mes y el año actual
+    mes_actual = datetime.now().month
+    año_actual = datetime.now().year
+
+    ##
+        # Obtener el mes y año actuales
+    now = datetime.now()
+    month = now.month
+    year = now.year
+
+    # Obtener todas las semanas del mes actual
+    cal = calendar.monthcalendar(year, month)
+
+    # Obtener los nombres de los días de la semana
+    days_of_week = calendar.day_name
+
+    # Obtener el nombre del mes actual
+    month_name = now.strftime("%B")
+
+    # Combinar los nombres de los días de la semana, los nombres de los días del mes y el nombre del mes
+    table_data = []
+    for week in cal:
+        week_data = []
+        for day in week:
+            if day == 0:
+                week_data.append(("",""))
+            else:
+                week_data.append((calendar.day_name[calendar.weekday(year, month, day)], day))
+        table_data.append(week_data)
+    ##
+    # Obtener los nombres de los días de la semana
+    dias_de_la_semana = calendar.month_name
+
+    # Obtener los números de los días del mes actual
+    dias_del_mes = calendar.monthcalendar(año_actual, mes_actual)
+    
+    # Obtén el primer y último día del mes actual
+    mes_actual = datetime.now().month
+    año_actual = datetime.now().year
+
+    primer_dia_mes = datetime(año_actual, mes_actual, 1, 0, 0, 0).isoformat() + 'Z'
+
+    if mes_actual == 12:
+        siguiente_mes = 1
+        siguiente_año = año_actual + 1
+    else:
+        siguiente_mes = mes_actual + 1
+        siguiente_año = año_actual
+
+    ultimo_dia_mes = (datetime(siguiente_año, siguiente_mes, 1, 0, 0, 0) - timedelta(seconds=1)).isoformat() + 'Z'
+    
     # Obtener eventos del calendario
-    events_result = service.events().list(calendarId='es.cl#holiday@group.v.calendar.google.com', timeMin='2023-10-01T00:00:00Z',timeMax='2023-10-31T23:59:59Z', maxResults=10, singleEvents=True,orderBy='startTime').execute()
+    events_result = service.events().list(calendarId='es.cl#holiday@group.v.calendar.google.com', timeMin=primer_dia_mes,timeMax=ultimo_dia_mes, maxResults=10, singleEvents=True,orderBy='startTime').execute()
 
     events = events_result.get('items', [])
 
@@ -87,12 +139,69 @@ def employe_list(request):
     else:
         form = EmpleadoForms()
         form2 = AsistenciaForms(request.POST)
+    
+    tabla_asistencia = generar_tabla_asistencia_mes_actual()
 
-    return render(request,'index.html',{'empleado':empleado,'form':form,'asistencia':asistencia,'listadias':listadias,'cant_regis':cant_regis,'array_asistencia':array_asistencia,'events': event_list,'form2':form2})
+    return render(request,'index.html',{'empleado':empleado,'form':form,'asistencia':asistencia,'listadias':listadias,'cant_regis':cant_regis,'array_asistencia':array_asistencia,'events': event_list,'form2':form2,'table_data':table_data,'tabla_asistencia':tabla_asistencia})
+
+def generar_tabla_asistencia_mes_actual():
+    mes_actual = datetime.now().month
+    anio_actual = datetime.now().year
+    dias_en_mes = monthrange(anio_actual, mes_actual)[1]
+
+    empleados = Empleado.objects.all()
+
+    tabla_asistencia = []
+
+    for empleado in empleados:
+            fila_asistencia = {
+                'nombre': empleado.nombre,
+                'apellido': empleado.apellido,
+                'rut': empleado.rut,
+                'imagen': empleado.imageEmp.url,  # Asegúrate de usar el nombre del campo correcto en tu modelo
+                'asistencias': []
+            }
+            dias_asistidos = 0
+
+            for dia in range(1, dias_en_mes + 1):
+                fecha = datetime(anio_actual, mes_actual, dia)
+                asistencia = RegistroAsistencia.objects.filter(empleado=empleado, fecha=fecha).exists()
+
+                if asistencia:
+                    fila_asistencia['asistencias'].append('✔')  # '✔' para asistencia
+                    dias_asistidos += 1
+                else:
+                    fila_asistencia['asistencias'].append('✘')  # '✘' para ausencia
+
+            fila_asistencia['dias_asistidos'] = dias_asistidos
+            tabla_asistencia.append(fila_asistencia)
+
+    return tabla_asistencia
 
 @login_required
 def dashboard(request):
-    return render(request,'dashboards/dashboard.html')
+    mes_actual = datetime.now().month
+    anio_actual = datetime.now().year
+    dias_en_mes = monthrange(anio_actual, mes_actual)[1]
+
+    empleados = Empleado.objects.all()
+
+    tabla_asistencia = []
+
+    for empleado in empleados:
+        fila_asistencia = {'empleado': empleado.nombre, 'asistencias': []}
+
+        for dia in range(1, dias_en_mes + 1):
+            fecha = datetime(anio_actual, mes_actual, dia)
+            asistencia = RegistroAsistencia.objects.filter(empleado=empleado, fecha=fecha).exists()
+
+            if asistencia:
+                fila_asistencia['asistencias'].append('✔')  # '✔' para asistencia
+            else:
+                fila_asistencia['asistencias'].append('✘')  # '✘' para ausencia
+
+        tabla_asistencia.append(fila_asistencia)
+    return render(request,'dashboards/dashboard.html',{'tabla_asistencia':tabla_asistencia})
 @login_required
 def proveedor(request):
     if request.method == "POST":
